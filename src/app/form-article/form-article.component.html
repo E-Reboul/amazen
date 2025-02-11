@@ -1,0 +1,9 @@
+<form #articleForm="ngForm" (ngSubmit)="onSubmit(articleForm)">
+    <label for="name">Nom de l'article</label>
+    <input type="text" name="name" ngModel placeholder="Poireau, tomate.." required>
+
+    <label for="price">Prix de l'article</label>
+    <input type="text" name="price" ngModel placeholder="De 1 à 2000€" required>
+
+    <button type="submit" name="submit" class="btn btn-primary" [disabled]="articleForm.invalid || articleForm.value.price > 2000 || articleForm.value.price < 1 || articleForm.value.name.length > 30" required>Confirm</button>
+</form>

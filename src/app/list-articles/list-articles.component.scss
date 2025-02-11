@@ -1,0 +1,18 @@
+.list-articles {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x none; /* Snap au début de chaque élément */
+    gap: 16px;
+    padding: 10px;
+    scrollbar-width: thin; /* Affiche une barre de scroll fine */
+    -ms-overflow-style: none; /* Cache la barre sur Edge */
+}
+
+.list-articles::-webkit-scrollbar {
+    height: 6px;
+}
+
+.list-articles::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
