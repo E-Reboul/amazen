@@ -16,6 +16,7 @@ export class UserService {
             email: 'John@gmail.com',
             role: 'admin',
             panier: [],
+            isConnected: false,
         },
         {
             id: 2,
@@ -24,10 +25,12 @@ export class UserService {
             email: 'Jane@gmail.com',
             role: 'user',
             panier: [],
+            isConnected: false,
         },
     ];
 
     public getUsers() {
+
         return this.users;
     }
 
@@ -40,8 +43,18 @@ export class UserService {
         return user;
     }
 
-    public getPanierById(idUser: number): Article[] {
 
+    public findUserByEmail(email: string): User {
+        let user = this.users.find(user => user.email === email);
+
+        if (!user) {
+            throw new Error('Email not found');
+        }
+
+        return user;
+    }
+
+    public getPanierById(idUser: number): Article[] {
         return this.findUserById(idUser).panier;
     }
 
@@ -49,9 +62,14 @@ export class UserService {
         this.findUserById(idUser).panier.push(article);
     }
 
-    public getArticlesFromPanier(idUser: number) {
-        
+    public login(email: string, password: string): boolean {
+        let user = this.findUserByEmail(email);
+
+        if (user.password !== password) {
+            console.error("Password not found");
+            return user.isConnected === false;
+        }
+            console.log(`${user.name} found`);
+            return user.isConnected = true;
     }
-
-
 }
