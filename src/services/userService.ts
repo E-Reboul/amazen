@@ -40,8 +40,18 @@ export class UserService {
         return user;
     }
 
-    public getPanier(idUser: number): Article[] {
+    public getPanierById(idUser: number): Article[] {
 
         return this.findUserById(idUser).panier;
     }
+
+    public addArticleToPanier(idUser: number, article: Article) {
+        this.findUserById(idUser).panier.push(article);
+    }
+
+    public getArticlesFromPanier(idUser: number) {
+        
+    }
+
+
 }
