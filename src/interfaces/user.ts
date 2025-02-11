@@ -7,4 +7,5 @@ export interface User {
     email: string;
     role: string;
     panier: Article[];
+    isConnected: boolean;
 }

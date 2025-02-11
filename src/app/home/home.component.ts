@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { ListArticlesComponent } from '../list-articles/list-articles.component';
 import { FormArticleComponent } from '../form-article/form-article.component';
+import { FormLoginComponent } from "../form-login/form-login.component";
 
 @Component({
   selector: 'app-home',
-  imports: [ListArticlesComponent, FormArticleComponent],
+  imports: [ListArticlesComponent, FormArticleComponent, FormLoginComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
