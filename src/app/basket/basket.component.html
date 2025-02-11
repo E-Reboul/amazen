@@ -1,0 +1,12 @@
+<div class="container">
+  <img src="https://picsum.photos/1000/100" class="card-img-top" alt="Image aléatoire">
+  <h2>Mon Panier</h2>
+  <div *ngIf="panier.length === 0">
+    <p>Votre panier est vide</p>
+  </div>
+  <div *ngIf="panier.length > 0">
+    <div *ngFor="let article of panier">
+      <app-article-card [article]="article"></app-article-card>
+    </div>
+  </div>
+</div>

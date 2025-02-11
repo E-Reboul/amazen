@@ -43,6 +43,7 @@ export class UserService {
         return user;
     }
 
+
     public findUserByEmail(email: string): User {
         let user = this.users.find(user => user.email === email);
 
@@ -53,9 +54,12 @@ export class UserService {
         return user;
     }
 
-    public getPanier(idUser: number): Article[] {
-
+    public getPanierById(idUser: number): Article[] {
         return this.findUserById(idUser).panier;
+    }
+
+    public addArticleToPanier(idUser: number, article: Article) {
+        this.findUserById(idUser).panier.push(article);
     }
 
     public login(email: string, password: string): boolean {
