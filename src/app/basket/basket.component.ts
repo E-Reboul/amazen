@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, effect } from '@angular/core';
 import { ArticleCardComponent } from '../article-card/article-card.component';
 import { Article } from '../../interfaces/article';
 import { UserService } from '../../services/userService';
@@ -13,11 +13,18 @@ import { User } from '../../interfaces/user';
   styleUrl: './basket.component.scss'
 })
 export class BasketComponent implements OnInit {
-
   connectedUser: User | null = null;
   panier: Article[] = [];
   
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+    // Création d'un effect pour mettre à jour automatiquement le panier
+    effect(() => {
+      const panierSignal = this.userService.getPanierSignal()();
+      if (panierSignal) {
+        this.panier = panierSignal;
+      }
+    });
+  }
 
   ngOnInit() {
     this.connectedUser = this.userService.getConnectedUser();

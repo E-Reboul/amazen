@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { User } from "../interfaces/user";
 import { Article } from "../interfaces/article";
 
@@ -29,6 +29,8 @@ export class UserService {
         },
     ];
 
+    private panierSignal = signal<Article[]>([]);
+
     public getUsers() {
 
         return this.users;
@@ -58,7 +60,13 @@ export class UserService {
     }
 
     public addArticleToPanier(idUser: number, article: Article) {
-        this.findUserById(idUser).panier.push(article);
+        const user = this.findUserById(idUser);
+        user.panier.push(article);
+        this.panierSignal.set([...user.panier]); // Met à jour le signal
+    }
+
+    public getPanierSignal() {
+        return this.panierSignal;
     }
     
     public login(email: string, password: string): boolean {
