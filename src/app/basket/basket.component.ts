@@ -13,15 +13,17 @@ import { User } from '../../interfaces/user';
   styleUrl: './basket.component.scss'
 })
 export class BasketComponent implements OnInit {
-  connectedUser: User | null = null;
+  connectedUser: User | null;
   panier: Article[] = [];
   
   constructor(private userService: UserService) {
-    // Création d'un effect pour mettre à jour automatiquement le panier
+
+    this.connectedUser = this.userService.getConnectedUser();
+
     effect(() => {
       const panierSignal = this.userService.getPanierSignal()();
       if (panierSignal) {
-        this.panier = panierSignal;
+        this.panier = this.userService.getPanierById(this.connectedUser!.id);
       }
     });
   }

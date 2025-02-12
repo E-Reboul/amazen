@@ -16,7 +16,6 @@ export class UserService {
             email: 'John@gmail.com',
             role: 'admin',
             panier: [],
-            isConnected: false,
         },
         {
             id: 2,
@@ -25,10 +24,10 @@ export class UserService {
             email: 'Jane@gmail.com',
             role: 'user',
             panier: [],
-            isConnected: false,
         },
     ];
 
+    private connectedUser = signal<User | null>(null);
     private panierSignal = signal<Article[]>([]);
 
     public getUsers() {
@@ -62,7 +61,7 @@ export class UserService {
     public addArticleToPanier(idUser: number, article: Article) {
         const user = this.findUserById(idUser);
         user.panier.push(article);
-        this.panierSignal.set([...user.panier]); // Met à jour le signal
+        this.panierSignal.set([...user.panier]);
     }
 
     public getPanierSignal() {
@@ -71,27 +70,30 @@ export class UserService {
     
     public login(email: string, password: string): boolean {
         
-        this.disconnectAllUsers();
-
         let user = this.findUserByEmail(email);
 
         if (user.password !== password) {
             console.error("Password not found");
-            user.isConnected = false;
             return false;
         }
             console.log(`${user.name} found`);
-            user.isConnected = true;
+            this.disconnectUser();
+            this.connectedUser.set(user);
             return true
     }
 
-    public disconnectAllUsers() {
-        this.users.forEach(user => user.isConnected = false);
+    public disconnectUser() {
+        this.connectedUser.set(null);
     }
 
     public getConnectedUser(): User | null {
-        let user = this.users.find(user => user.isConnected === true);
-        return user ?? null;
+        let user = this.connectedUser();
+
+        if (!user) {
+            return null;
+        }
+
+        return user;
     }
 
     public userIsConnected(): boolean {
