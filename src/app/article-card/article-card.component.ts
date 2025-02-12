@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { HighlightDirective } from '../../directives/highlightDirective';
 import { UserService } from '../../services/userService';
 import { Article } from '../../interfaces/article';
+import { BasketService } from '../../services/basketService';
 
 @Component({
   selector: 'app-article-card',
@@ -13,7 +14,7 @@ import { Article } from '../../interfaces/article';
 export class ArticleCardComponent {
   @Input() article!: Article;
   
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private basketService: BasketService) {}
 
   addArticleToPanier() {
     const userConnected = this.userService.getConnectedUser();
@@ -21,8 +22,6 @@ export class ArticleCardComponent {
       console.error("No user connected");
       return;
     }
-    this.userService.addArticleToPanier(userConnected.id, this.article);
-
-    console.log(`Article ajouté pour l'utilisateur : ${userConnected.name} ${JSON.stringify(this.userService.getPanierById(userConnected.id))}`);
+    this.basketService.addArticleToPanier(this.article);
   }
 }

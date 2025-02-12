@@ -7,7 +7,7 @@ import { NavbarComponent } from "../navbar/navbar.component";
 
 @Component({
   selector: 'app-home',
-  imports: [ListArticlesComponent, FormArticleComponent, NavbarComponent],
+  imports: [ListArticlesComponent, FormArticleComponent, NavbarComponent, BasketComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

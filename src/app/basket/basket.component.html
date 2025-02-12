@@ -1,18 +1,12 @@
 <div class="container">
   <img src="https://picsum.photos/1000/100" class="card-img-top" alt="Image aléatoire">
   <h2>Mon Panier</h2>
-
-  <div *ngIf="connectedUser">
-    <h2>Panier de {{connectedUser.name}}</h2>
-    <div *ngIf="panier.length > 0; else emptyBasket">
-      <app-article-card *ngFor="let article of panier" [article]="article"></app-article-card>
-
-    </div>
-    <ng-template #emptyBasket>
-      <p>Votre panier est vide</p>
-    </ng-template>
+  <div *ngIf="panier.length === 0">
+    <p style="text-align: center;">Votre panier est vide</p>
   </div>
-  <div *ngIf="!connectedUser">
-    <p>Veuillez vous connecter pour voir votre panier</p>
+  <div *ngIf="panier.length > 0">
+    <div *ngFor="let article of panier">
+      <app-article-card [article]="article"></app-article-card>
+    </div>
   </div>
 </div>
