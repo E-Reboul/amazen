@@ -15,6 +15,7 @@ export class FormLoginComponent {
   constructor(private userService: UserService) {}
 
   onSubmit(loginForm: NgForm) {
+    
     if (loginForm.invalid) {
       console.error("Fields is invalid");
     }

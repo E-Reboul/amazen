@@ -3,6 +3,7 @@ import { ArticleCardComponent } from '../article-card/article-card.component';
 import { Article } from '../../interfaces/article';
 import { UserService } from '../../services/userService';
 import { CommonModule } from '@angular/common';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-basket',
@@ -12,15 +13,23 @@ import { CommonModule } from '@angular/common';
   styleUrl: './basket.component.scss'
 })
 export class BasketComponent implements OnInit {
+
+  connectedUser: User | null = null;
   panier: Article[] = [];
   
   constructor(private userService: UserService) {}
 
   ngOnInit() {
+    this.connectedUser = this.userService.getConnectedUser();
     this.updatePanier();
   }
 
   updatePanier() {
-    this.panier = this.userService.getPanierById(1);
+    if (!this.connectedUser) {
+      console.error("No user connected");
+      return;
+    }
+    this.panier = this.userService.getPanierById(this.connectedUser.id);
+    console.log(`Panier de l'utilisateur : ${this.connectedUser.name} ${JSON.stringify(this.panier)}`);
   }
 }

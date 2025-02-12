@@ -13,9 +13,16 @@ import { Article } from '../../interfaces/article';
 export class ArticleCardComponent {
   @Input() article!: Article;
   
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService) {}
 
   addArticleToPanier() {
-    this.userService.addArticleToPanier(1, this.article);
+    const userConnected = this.userService.getConnectedUser();
+    if (!userConnected) {
+      console.error("No user connected");
+      return;
+    }
+    this.userService.addArticleToPanier(userConnected.id, this.article);
+
+    console.log(`Article ajouté pour l'utilisateur : ${userConnected.name} ${JSON.stringify(this.userService.getPanierById(userConnected.id))}`);
   }
 }

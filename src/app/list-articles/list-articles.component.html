@@ -1,4 +1,4 @@
 <div class="list-articles">
-    <button (click)="onClick()" class="btn btn-primary" appHighlight>Delete random</button>
+    <button (click)="onClick()" class="btn bg-success text-white" appHighlight>Delete random</button>
     <app-article-card *ngFor="let article of articles" [article]="article"></app-article-card>
 </div>

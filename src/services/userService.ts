@@ -43,7 +43,6 @@ export class UserService {
         return user;
     }
 
-
     public findUserByEmail(email: string): User {
         let user = this.users.find(user => user.email === email);
 
@@ -61,15 +60,39 @@ export class UserService {
     public addArticleToPanier(idUser: number, article: Article) {
         this.findUserById(idUser).panier.push(article);
     }
-
+    
     public login(email: string, password: string): boolean {
+        
+        this.disconnectAllUsers();
+
         let user = this.findUserByEmail(email);
 
         if (user.password !== password) {
             console.error("Password not found");
-            return user.isConnected === false;
+            user.isConnected = false;
+            return false;
         }
             console.log(`${user.name} found`);
-            return user.isConnected = true;
+            user.isConnected = true;
+            return true
+    }
+
+    public disconnectAllUsers() {
+        this.users.forEach(user => user.isConnected = false);
+    }
+
+    public getConnectedUser(): User | null {
+        let user = this.users.find(user => user.isConnected === true);
+        return user ?? null;
+    }
+
+    public userIsConnected(): boolean {
+        let user = this.getConnectedUser();
+
+        if (!user) {
+            return false;
+        }
+
+        return true;
     }
 }
