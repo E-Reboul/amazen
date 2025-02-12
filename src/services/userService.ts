@@ -29,7 +29,22 @@ export class UserService {
         },
     ];
 
+    // private UserConnected: User | null = null;
     private panierSignal = signal<Article[]>([]);
+
+    constructor() {
+        const savedUser = localStorage.getItem('connectedUser');
+        const savedPanier = localStorage.getItem('panier');
+        if (savedUser) {
+            const user = JSON.parse(savedUser);
+            if (savedPanier) {
+                const panier = JSON.parse(savedPanier);
+                this.panierSignal.set(panier);
+                this.findUserById(user.id).panier = panier;
+            }
+            this.users.find(u => u.id === user.id)!.isConnected = true;
+        }
+    }
 
     public getUsers() {
 
@@ -62,7 +77,8 @@ export class UserService {
     public addArticleToPanier(idUser: number, article: Article) {
         const user = this.findUserById(idUser);
         user.panier.push(article);
-        this.panierSignal.set([...user.panier]); // Met à jour le signal
+        this.panierSignal.set([...user.panier]);
+        localStorage.setItem('panier', JSON.stringify(user.panier));
     }
 
     public getPanierSignal() {
@@ -82,11 +98,13 @@ export class UserService {
         }
             console.log(`${user.name} found`);
             user.isConnected = true;
+            localStorage.setItem('connectedUser', JSON.stringify(user));
             return true
     }
 
     public disconnectAllUsers() {
         this.users.forEach(user => user.isConnected = false);
+        localStorage.removeItem('connectedUser');
     }
 
     public getConnectedUser(): User | null {
