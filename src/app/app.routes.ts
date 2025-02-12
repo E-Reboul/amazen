@@ -9,6 +9,6 @@ export const routes: Routes = [
     },
     {
         path: 'basket',
-        component: BasketComponent,
+        component: BasketComponent, 
     }
 ];

@@ -17,28 +17,12 @@ export class BasketComponent implements OnInit {
   panier: Article[] = [];
   
   constructor(private userService: UserService) {
-
-    this.connectedUser = this.userService.getConnectedUser();
-
     effect(() => {
-      const panierSignal = this.userService.getPanierSignal()();
-      if (panierSignal) {
-        this.panier = this.userService.getPanierById(this.connectedUser!.id);
-      }
+      this.panier = this.userService.getPanierSignal()();
     });
   }
 
   ngOnInit() {
     this.connectedUser = this.userService.getConnectedUser();
-    this.updatePanier();
-  }
-
-  updatePanier() {
-    if (!this.connectedUser) {
-      console.error("No user connected");
-      return;
-    }
-    this.panier = this.userService.getPanierById(this.connectedUser.id);
-    console.log(`Panier de l'utilisateur : ${this.connectedUser.name} ${JSON.stringify(this.panier)}`);
   }
 }
