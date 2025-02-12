@@ -13,7 +13,7 @@ import { User } from '../../interfaces/user';
   styleUrl: './basket.component.scss'
 })
 export class BasketComponent implements OnInit {
-  connectedUser: User | null = null;
+  connectedUser: User | null;
   panier: Article[] = [];
   
   constructor(private userService: UserService) {
